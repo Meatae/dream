@@ -5,6 +5,7 @@ import { Dream } from '@/types/dream';
 import { DayCarousel } from '@/components/dream/DayCarousel';
 import { DreamForm } from '@/components/dream/DreamForm';
 import { DreamCard, DreamCardSkeleton } from '@/components/dream/DreamCard';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Moon } from 'lucide-react';
 import { useDreams } from '@/hooks/useDreams';
 import { useAnalysis } from '@/hooks/useAnalysis';
@@ -66,9 +67,9 @@ export default function Home() {
   const lastDays = getLastDaysWithDreams(60);
 
   return (
-    <div className="min-h-screen font-sans">
-      <div className="max-w-3xl mx-auto">
-        <header className="sticky top-0 z-10 bg-[#faf8f5]/95 backdrop-blur-sm border-b border-[#e8e4df]">
+    <div className="min-h-screen flex flex-col font-sans">
+      <div className="max-w-3xl mx-auto w-full flex-1 flex flex-col">
+        <header className="sticky top-0 z-10 bg-[#faf8f5]/95 backdrop-blur-sm border-b border-[#e8e4df] flex-shrink-0">
           <div className="px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Moon className="w-6 h-6 text-[#5c5855]" />
@@ -85,38 +86,42 @@ export default function Home() {
           onSelectDate={setSelectedDate}
         />
 
-        <main className="p-6 space-y-6">
-          <DreamForm onSubmit={handleAddDream} loading={analyzingDream} />
+        <main className="flex-1 flex flex-col min-h-0 p-6">
+          <div className="space-y-6 flex-1 flex flex-col min-h-0">
+            <DreamForm onSubmit={handleAddDream} loading={analyzingDream} />
 
-          {loading ? (
-            <div className="space-y-4">
-              <DreamCardSkeleton />
-              <DreamCardSkeleton />
-            </div>
-          ) : filteredDreams.length === 0 ? (
-            <div className="text-center py-12">
-              <Moon className="w-16 h-16 text-[#d4cfc7] mx-auto mb-4" />
-              <p className="text-[#8a857f] font-serif text-lg mb-2">
-                {selectedDate 
-                  ? `Нет снов за ${format(selectedDate, 'd MMMM', { locale: ru })}`
-                  : 'Запишите свой первый сон'
-                }
-              </p>
-              <p className="text-sm text-[#a8a3a0]">
-                {selectedDate ? 'Выберите другой день или запишите новый сон' : 'Опишите свой сон выше'}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {filteredDreams.map((dream) => (
-                <DreamCard
-                  key={dream.id}
-                  dream={dream}
-                  onDelete={handleDeleteDream}
-                />
-              ))}
-            </div>
-          )}
+            <ScrollArea className="flex-1">
+              <div className="space-y-4 pr-4 w-full">
+                {loading ? (
+                  <div className="space-y-4">
+                    <DreamCardSkeleton />
+                    <DreamCardSkeleton />
+                  </div>
+                ) : filteredDreams.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Moon className="w-16 h-16 text-[#d4cfc7] mx-auto mb-4" />
+                    <p className="text-[#8a857f] font-serif text-lg mb-2">
+                      {selectedDate
+                        ? `Нет снов за ${format(selectedDate, 'd MMMM', { locale: ru })}`
+                        : 'Запишите свой первый сон'
+                      }
+                    </p>
+                    <p className="text-sm text-[#a8a3a0]">
+                      {selectedDate ? 'Выберите другой день или запишите новый сон' : 'Опишите свой сон выше'}
+                    </p>
+                  </div>
+                ) : (
+                  filteredDreams.map((dream) => (
+                    <DreamCard
+                      key={dream.id}
+                      dream={dream}
+                      onDelete={handleDeleteDream}
+                    />
+                  ))
+                )}
+              </div>
+            </ScrollArea>
+          </div>
         </main>
       </div>
     </div>

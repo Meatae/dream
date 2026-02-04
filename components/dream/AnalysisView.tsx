@@ -1,11 +1,9 @@
 'use client';
 
 import { DreamAnalysis } from '@/types/dream';
-import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { User, MapPin, Lightbulb, Brain, TrendingUp, Heart } from 'lucide-react';
 
 interface AnalysisViewProps {
@@ -29,15 +27,14 @@ const PATTERN_ICONS = {
 
 export function AnalysisView({ analysis }: AnalysisViewProps) {
   return (
-    <Card className="bg-white border-[#e8e4df] shadow-sm overflow-hidden">
-      <ScrollArea className="max-h-[600px]">
-        <div className="p-6 space-y-6">
+    <div className="bg-white border border-[#e8e4df] rounded-lg shadow-sm overflow-hidden w-full">
+      <div className="h-[500px] overflow-y-auto p-6 space-y-6">
           <section>
             <h3 className="text-lg font-semibold text-[#2c2825] mb-3 flex items-center gap-2">
               <Brain className="w-5 h-5" />
               Суть сна
             </h3>
-            <p className="text-[#5c5855] leading-relaxed">{analysis.summary}</p>
+            <p className="text-[#5c5855] leading-relaxed break-words">{analysis.summary}</p>
           </section>
 
           <Separator className="bg-[#e8e4df]" />
@@ -47,7 +44,7 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
               <Heart className="w-5 h-5" />
               Эмоциональный тон
             </h3>
-            <Badge variant="secondary" className="bg-[#e8e4df] text-[#2c2825]">
+            <Badge variant="secondary" className="bg-[#e8e4df] text-[#2c2825] break-words">
               {analysis.mood}
             </Badge>
           </section>
@@ -62,7 +59,7 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {analysis.themes.map((theme, index) => (
-                  <Badge key={index} variant="outline" className="border-[#d4cfc7] text-[#5c5855]">
+                  <Badge key={index} variant="outline" className="border-[#d4cfc7] text-[#5c5855] break-words">
                     {theme}
                   </Badge>
                 ))}
@@ -87,9 +84,9 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-[#2c2825] truncate">{character.name}</h4>
-                      <p className="text-sm text-[#8a857f] mb-1">{character.role}</p>
-                      <p className="text-xs text-[#5c5855] leading-relaxed">{character.description}</p>
+                      <h4 className="font-medium text-[#2c2825] break-words">{character.name}</h4>
+                      <p className="text-sm text-[#8a857f] mb-1 break-words">{character.role}</p>
+                      <p className="text-xs text-[#5c5855] leading-relaxed break-words">{character.description}</p>
                     </div>
                   </div>
                 ))}
@@ -112,13 +109,13 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
                       {LOCATION_ICONS[location.type] || '📍'}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-medium text-[#2c2825] truncate">{location.name}</h4>
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <h4 className="font-medium text-[#2c2825] break-words">{location.name}</h4>
                         <Badge variant="outline" className="text-xs border-[#d4cfc7] text-[#8a857f]">
                           {location.type}
                         </Badge>
                       </div>
-                      <p className="text-xs text-[#5c5855] leading-relaxed">{location.description}</p>
+                      <p className="text-xs text-[#5c5855] leading-relaxed break-words">{location.description}</p>
                     </div>
                   </div>
                 ))}
@@ -137,14 +134,14 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
               <div className="grid gap-3">
                 {analysis.patterns.map((pattern, index) => (
                   <div key={index} className="p-3 bg-[#faf8f5] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span className="text-xl">{PATTERN_ICONS[pattern.type] || '🔮'}</span>
-                      <h4 className="font-medium text-[#2c2825]">{pattern.description}</h4>
+                      <h4 className="font-medium text-[#2c2825] break-words flex-1">{pattern.description}</h4>
                       <Badge variant="outline" className="text-xs border-[#d4cfc7] text-[#8a857f]">
                         {pattern.type}
                       </Badge>
                     </div>
-                    <p className="text-sm text-[#5c5855] leading-relaxed">{pattern.significance}</p>
+                    <p className="text-sm text-[#5c5855] leading-relaxed break-words">{pattern.significance}</p>
                   </div>
                 ))}
               </div>
@@ -159,13 +156,12 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
                 <Lightbulb className="w-5 h-5" />
                 Интерпретация
               </h3>
-              <p className="text-sm text-[#5c5855] leading-relaxed italic">
+              <p className="text-sm text-[#5c5855] leading-relaxed italic break-words">
                 {analysis.insights}
               </p>
             </section>
           )}
         </div>
-      </ScrollArea>
-    </Card>
+    </div>
   );
 }

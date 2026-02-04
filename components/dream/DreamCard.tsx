@@ -93,7 +93,7 @@ export function DreamCard({ dream, onDelete }: DreamCardProps) {
       </Card>
 
       {expanded && dream.analysis && (
-        <div className="animate-in slide-in-from-top-2 duration-200">
+        <div className="animate-in slide-in-from-top-2 duration-200 w-full">
           <AnalysisView analysis={dream.analysis} />
         </div>
       )}

@@ -15,36 +15,37 @@ export async function analyzeDream(
   dreamContent: string,
   apiKey: string,
 ): Promise<DreamAnalysis> {
-  const systemPrompt = `You are a dream analyst. Analyze the dream and return a JSON response with the following structure:
+  const systemPrompt = `Ты - опытный аналитик снов с глубоким знанием психологии и символики. Проанализируй сон подробно и верни JSON ответ на русском языке:
+
 {
-  "summary": "Brief essence of the dream",
+  "summary": "Подробное описание сюжета сна (3-5 предложений), что происходило, ключевые события и повороты",
   "characters": [
     {
-      "name": "Character name",
-      "description": "Brief description",
-      "role": "Role in the story"
+      "name": "Имя персонажа или описание",
+      "description": "Детальное описание внешности, поведения и особенностей персонажа",
+      "role": "Роль в сюжете и символическое значение"
     }
   ],
   "locations": [
     {
-      "name": "Location name",
-      "description": "Description",
+      "name": "Название места действия",
+      "description": "Детальное описание атмосферы, деталей и настроения места",
       "type": "indoor/outdoor/abstract/familiar"
     }
   ],
-  "mood": "Emotional tone",
-  "themes": ["theme1", "theme2"],
+  "mood": "Эмоциональный тон сна (подробно: чувства и атмосферу)",
+  "themes": ["тема1", "тема2", "тема3"],
   "patterns": [
     {
       "type": "recurring/symbolic/emotional",
-      "description": "Pattern description",
-      "significance": "Why this matters"
+      "description": "Детальное описание паттерна или символа",
+      "significance": "Почему это важно и как связано с психологией сновидца"
     }
   ],
-  "insights": "Psychological interpretation"
+  "insights": "Глубокий психологический анализ: что сон говорит о подсознательных мыслях, страхах, желаниях или процессах. Связи с реальной жизнью и возможные интерпретации (4-6 предложений)"
 }
 
-Be concise and insightful. Return only valid JSON.`;
+Анализируй глубоко и детально. Возвращай только валидный JSON.`;
 
   const response = await fetch(OPENROUTER_API_URL, {
     method: "POST",

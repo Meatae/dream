@@ -63,7 +63,6 @@ export function DreamForm({ onSubmit, loading, selectedDate }: DreamFormProps) {
   const [showDateInput, setShowDateInput] = useState(false);
   const [dreamDate, setDreamDate] = useState<Date>(selectedDate || new Date());
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const finalTranscriptRef = useRef('');
 
   const startRecording = () => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -79,17 +78,22 @@ export function DreamForm({ onSubmit, loading, selectedDate }: DreamFormProps) {
 
     recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
       let interimTranscript = '';
+      let currentFinal = '';
       
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcriptText = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          finalTranscriptRef.current += transcriptText;
+          currentFinal += transcriptText;
         } else {
           interimTranscript += transcriptText;
         }
       }
       
-      setTranscript(finalTranscriptRef.current + interimTranscript);
+      if (currentFinal) {
+        setContent(prev => prev + currentFinal);
+      }
+      
+      setTranscript(interimTranscript);
     };
 
     recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
@@ -112,11 +116,7 @@ export function DreamForm({ onSubmit, loading, selectedDate }: DreamFormProps) {
       recognitionRef.current.stop();
     }
     setIsRecording(false);
-    if (finalTranscriptRef.current || transcript) {
-      setContent(finalTranscriptRef.current + transcript);
-      setTranscript('');
-      finalTranscriptRef.current = '';
-    }
+    setTranscript('');
   };
 
   const handleSubmit = async () => {
@@ -125,7 +125,6 @@ export function DreamForm({ onSubmit, loading, selectedDate }: DreamFormProps) {
     await onSubmit(content || transcript, dreamDate);
     setContent('');
     setTranscript('');
-    finalTranscriptRef.current = '';
   };
 
   return (

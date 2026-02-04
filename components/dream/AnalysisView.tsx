@@ -43,9 +43,9 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
               <Heart className="w-5 h-5" />
               Эмоциональный тон
             </h3>
-            <Badge variant="secondary" className="bg-[#e8e4df] text-[#2c2825] break-words">
+            <div className="inline-flex items-center bg-[#e8e4df] text-[#2c2825] px-3 py-1.5 rounded-md text-sm font-medium break-words">
               {analysis.mood}
-            </Badge>
+            </div>
           </section>
 
           <Separator className="bg-[#e8e4df]" />

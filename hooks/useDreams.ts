@@ -65,7 +65,7 @@ export function useDreams() {
     }
   };
 
-  const getLastDaysWithDreams = (days: number = 30): DayWithDreams[] => {
+  const getLastDaysWithDreams = (days: number = 14): DayWithDreams[] => {
     const daysMap = new Map<string, Dream[]>();
     
     dreams.forEach(dream => {
@@ -82,12 +82,10 @@ export function useDreams() {
       const dateKey = format(date, 'yyyy-MM-dd');
       const daysDreams = daysMap.get(dateKey) || [];
       
-      if (daysDreams.length > 0) {
-        result.push({
-          date: startOfDay(date),
-          dreams: daysDreams.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-        });
-      }
+      result.push({
+        date: startOfDay(date),
+        dreams: daysDreams.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      });
     }
     
     return result;

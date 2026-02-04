@@ -40,11 +40,12 @@ export function DayCarousel({ days, selectedDate, onSelectDate }: DayCarouselPro
                 onClick={() => onSelectDate(day.date)}
                 className={`
                   flex-shrink-0 h-auto flex-col gap-1 py-3 px-4 min-w-[100px]
-                  transition-all duration-200
+                  transition-all duration-200 relative
                   ${isSelected 
                     ? 'bg-[#2c2825] text-white shadow-lg' 
                     : 'bg-white text-[#5c5855] hover:bg-[#e8e4df]'
                   }
+                  ${day.dreams.length > 0 ? 'ring-2 ring-[#d4cfc7]' : ''}
                 `}
               >
                 <span className="text-xs opacity-80">
@@ -56,9 +57,17 @@ export function DayCarousel({ days, selectedDate, onSelectDate }: DayCarouselPro
                 <span className="text-xs opacity-80">
                   {format(day.date, 'MMMM', { locale: ru })}
                 </span>
-                <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-[#8a857f]'}`}>
-                  {day.dreams.length} {day.dreams.length === 1 ? 'сон' : day.dreams.length > 4 ? 'снов' : 'сна'}
-                </span>
+                {day.dreams.length > 0 && (
+                  <>
+                    <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white' : 'bg-[#2c2825]'}`} />
+                    <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-[#8a857f]'}`}>
+                      {day.dreams.length} {day.dreams.length === 1 ? 'сон' : day.dreams.length > 4 ? 'снов' : 'сна'}
+                    </span>
+                  </>
+                )}
+                {day.dreams.length === 0 && (
+                  <span className="text-xs text-[#a8a3a0]">Нет снов</span>
+                )}
               </Button>
             );
           })}

@@ -3,12 +3,16 @@
 import { useState, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Mic, MicOff, Send, Loader2 } from 'lucide-react';
+import { Mic, MicOff, Send, Loader2, Calendar } from 'lucide-react';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 interface DreamFormProps {
-  onSubmit: (content: string) => Promise<void>;
+  onSubmit: (content: string, date: Date) => Promise<void>;
   loading: boolean;
+  selectedDate: Date | null;
 }
 
 interface SpeechRecognitionEvent extends Event {
@@ -52,10 +56,12 @@ declare global {
   }
 }
 
-export function DreamForm({ onSubmit, loading }: DreamFormProps) {
+export function DreamForm({ onSubmit, loading, selectedDate }: DreamFormProps) {
   const [content, setContent] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState('');
+  const [showDateInput, setShowDateInput] = useState(false);
+  const [dreamDate, setDreamDate] = useState<Date>(selectedDate || new Date());
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const finalTranscriptRef = useRef('');
 
@@ -116,7 +122,7 @@ export function DreamForm({ onSubmit, loading }: DreamFormProps) {
   const handleSubmit = async () => {
     if (!content.trim() && !transcript.trim()) return;
     
-    await onSubmit(content || transcript);
+    await onSubmit(content || transcript, dreamDate);
     setContent('');
     setTranscript('');
     finalTranscriptRef.current = '';
@@ -125,6 +131,34 @@ export function DreamForm({ onSubmit, loading }: DreamFormProps) {
   return (
     <Card className="bg-white border-[#e8e4df] shadow-sm">
       <div className="p-6 space-y-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowDateInput(!showDateInput)}
+            className={`flex items-center gap-2 text-sm ${
+              showDateInput 
+                ? 'bg-[#2c2825] text-white border-[#2c2825]' 
+                : 'bg-white border-[#d4cfc7] text-[#5c5855] hover:bg-[#e8e4df]'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            {format(dreamDate, 'd MMMM yyyy', { locale: ru })}
+          </Button>
+        </div>
+        
+        {showDateInput && (
+          <Input
+            type="date"
+            value={format(dreamDate, 'yyyy-MM-dd')}
+            onChange={(e) => {
+              const date = e.target.value ? new Date(e.target.value) : new Date();
+              setDreamDate(date);
+            }}
+            className="bg-[#faf8f5] border-[#d4cfc7] focus:border-[#a8a3a0] text-[#2c2825]"
+          />
+        )}
+
         <Textarea
           placeholder="Опишите свой сон или используйте голосовой ввод..."
           value={content || transcript}

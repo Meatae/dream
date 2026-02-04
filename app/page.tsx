@@ -30,7 +30,7 @@ export default function Home() {
     return dreams;
   }, [selectedDate, dreams]);
 
-  const handleAddDream = async (content: string) => {
+  const handleAddDream = async (content: string, date: Date) => {
     const apiKey = getApiKey();
     if (!apiKey) {
       alert('Пожалуйста, добавьте API ключ в переменные окружения (NEXT_PUBLIC_OPENROUTER_API_KEY)');
@@ -42,7 +42,7 @@ export default function Home() {
       
       const newDream: Dream = {
         id: Date.now().toString(),
-        date: new Date(),
+        date: date,
         content,
         analysis,
         createdAt: new Date()
@@ -51,7 +51,7 @@ export default function Home() {
       await addDream(newDream);
       
       if (!selectedDate) {
-        setSelectedDate(new Date());
+        setSelectedDate(date);
       }
     } catch (error) {
       console.error('Failed to add dream:', error);
@@ -87,7 +87,7 @@ export default function Home() {
 
         <main className="flex-1 p-6">
           <div className="space-y-6">
-            <DreamForm onSubmit={handleAddDream} loading={analyzingDream} />
+            <DreamForm onSubmit={handleAddDream} loading={analyzingDream} selectedDate={selectedDate} />
 
             <div className="space-y-4">
               {loading ? (

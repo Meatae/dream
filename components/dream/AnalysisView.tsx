@@ -27,8 +27,7 @@ const PATTERN_ICONS = {
 
 export function AnalysisView({ analysis }: AnalysisViewProps) {
   return (
-    <div className="bg-white border border-[#e8e4df] rounded-lg shadow-sm overflow-hidden w-full">
-      <div className="h-[500px] overflow-y-auto p-6 space-y-6">
+    <div className="w-full p-6 space-y-6">
           <section>
             <h3 className="text-lg font-semibold text-[#2c2825] mb-3 flex items-center gap-2">
               <Brain className="w-5 h-5" />
@@ -161,7 +160,6 @@ export function AnalysisView({ analysis }: AnalysisViewProps) {
               </p>
             </section>
           )}
-        </div>
     </div>
   );
 }

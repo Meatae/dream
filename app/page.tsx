@@ -5,7 +5,6 @@ import { Dream } from '@/types/dream';
 import { DayCarousel } from '@/components/dream/DayCarousel';
 import { DreamForm } from '@/components/dream/DreamForm';
 import { DreamCard, DreamCardSkeleton } from '@/components/dream/DreamCard';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Moon } from 'lucide-react';
 import { useDreams } from '@/hooks/useDreams';
 import { useAnalysis } from '@/hooks/useAnalysis';
@@ -86,41 +85,39 @@ export default function Home() {
           onSelectDate={setSelectedDate}
         />
 
-        <main className="flex-1 flex flex-col min-h-0 p-6">
-          <div className="space-y-6 flex-1 flex flex-col min-h-0">
+        <main className="flex-1 p-6">
+          <div className="space-y-6">
             <DreamForm onSubmit={handleAddDream} loading={analyzingDream} />
 
-            <ScrollArea className="flex-1">
-              <div className="space-y-4 pr-4 w-full">
-                {loading ? (
-                  <div className="space-y-4">
-                    <DreamCardSkeleton />
-                    <DreamCardSkeleton />
-                  </div>
-                ) : filteredDreams.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Moon className="w-16 h-16 text-[#d4cfc7] mx-auto mb-4" />
-                    <p className="text-[#8a857f] font-serif text-lg mb-2">
-                      {selectedDate
-                        ? `Нет снов за ${format(selectedDate, 'd MMMM', { locale: ru })}`
-                        : 'Запишите свой первый сон'
-                      }
-                    </p>
-                    <p className="text-sm text-[#a8a3a0]">
-                      {selectedDate ? 'Выберите другой день или запишите новый сон' : 'Опишите свой сон выше'}
-                    </p>
-                  </div>
-                ) : (
-                  filteredDreams.map((dream) => (
-                    <DreamCard
-                      key={dream.id}
-                      dream={dream}
-                      onDelete={handleDeleteDream}
-                    />
-                  ))
-                )}
-              </div>
-            </ScrollArea>
+            <div className="space-y-4">
+              {loading ? (
+                <div className="space-y-4">
+                  <DreamCardSkeleton />
+                  <DreamCardSkeleton />
+                </div>
+              ) : filteredDreams.length === 0 ? (
+                <div className="text-center py-12">
+                  <Moon className="w-16 h-16 text-[#d4cfc7] mx-auto mb-4" />
+                  <p className="text-[#8a857f] font-serif text-lg mb-2">
+                    {selectedDate
+                      ? `Нет снов за ${format(selectedDate, 'd MMMM', { locale: ru })}`
+                      : 'Запишите свой первый сон'
+                    }
+                  </p>
+                  <p className="text-sm text-[#a8a3a0]">
+                    {selectedDate ? 'Выберите другой день или запишите новый сон' : 'Опишите свой сон выше'}
+                  </p>
+                </div>
+              ) : (
+                filteredDreams.map((dream) => (
+                  <DreamCard
+                    key={dream.id}
+                    dream={dream}
+                    onDelete={handleDeleteDream}
+                  />
+                ))
+              )}
+            </div>
           </div>
         </main>
       </div>

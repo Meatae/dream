@@ -22,82 +22,80 @@ export function DreamCard({ dream, onDelete }: DreamCardProps) {
   const time = format(dream.createdAt, 'HH:mm', { locale: ru });
 
   return (
-    <div className="space-y-3">
-      <Card className={`
-        bg-white border-[#e8e4df] shadow-sm transition-all duration-200
-        ${expanded ? 'shadow-md' : ''}
-      `}>
-        <div className="p-4">
-          <div className="flex items-start justify-between gap-4 mb-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm font-semibold text-[#2c2825]">{time}</span>
-                {dream.analysis && (
-                  <Badge variant="outline" className="border-[#d4cfc7] text-[#8a857f] text-xs">
-                    ✨ Проанализирован
-                  </Badge>
-                )}
-              </div>
-              <p className="text-[#5c5855] line-clamp-3 leading-relaxed">
-                {dream.content}
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-1 flex-shrink-0">
+    <Card className={`
+      bg-white border-[#e8e4df] shadow-sm transition-all duration-300 overflow-hidden
+      ${expanded ? 'shadow-lg' : ''}
+    `}>
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-4 mb-3">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-sm font-semibold text-[#2c2825]">{time}</span>
               {dream.analysis && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setExpanded(!expanded)}
-                  className="h-8 w-8 text-[#8a857f] hover:text-[#2c2825]"
-                >
-                  {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </Button>
+                <Badge variant="outline" className="border-[#d4cfc7] text-[#8a857f] text-xs">
+                  ✨ Проанализирован
+                </Badge>
               )}
-              
+            </div>
+            <p className="text-[#5c5855] line-clamp-3 leading-relaxed">
+              {dream.content}
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {dream.analysis && (
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setShowDelete(!showDelete)}
-                className={`h-8 w-8 transition-colors ${
-                  showDelete ? 'text-red-600 hover:bg-red-50' : 'text-[#8a857f] hover:text-[#2c2825]'
-                }`}
+                onClick={() => setExpanded(!expanded)}
+                className="h-8 w-8 text-[#8a857f] hover:text-[#2c2825] transition-transform duration-300"
               >
-                <Trash2 className="w-4 h-4" />
+                {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </Button>
-            </div>
+            )}
+            
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowDelete(!showDelete)}
+              className={`h-8 w-8 transition-colors ${
+                showDelete ? 'text-red-600 hover:bg-red-50' : 'text-[#8a857f] hover:text-[#2c2825]'
+              }`}
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
           </div>
-
-          {showDelete && (
-            <div className="flex items-center gap-2 pt-2 border-t border-[#e8e4df]">
-              <span className="text-sm text-[#8a857f]">Удалить этот сон?</span>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => onDelete(dream.id)}
-                className="h-7 text-xs"
-              >
-                Удалить
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowDelete(false)}
-                className="h-7 text-xs border-[#d4cfc7] text-[#5c5855]"
-              >
-                Отмена
-              </Button>
-            </div>
-          )}
         </div>
-      </Card>
+
+        {showDelete && (
+          <div className="flex items-center gap-2 pt-2 border-t border-[#e8e4df]">
+            <span className="text-sm text-[#8a857f]">Удалить этот сон?</span>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => onDelete(dream.id)}
+              className="h-7 text-xs"
+            >
+              Удалить
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowDelete(false)}
+              className="h-7 text-xs border-[#d4cfc7] text-[#5c5855]"
+            >
+              Отмена
+            </Button>
+          </div>
+        )}
+      </div>
 
       {expanded && dream.analysis && (
-        <div className="animate-in slide-in-from-top-2 duration-200 w-full">
+        <div className="border-t border-[#e8e4df] animate-in slide-in-from-top-2 duration-300">
           <AnalysisView analysis={dream.analysis} />
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 

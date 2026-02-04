@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌙 Сонник - Нейроанализатор снов
 
-## Getting Started
+Минималистичное приложение для записи и анализа снов с помощью искусственного интеллекта.
 
-First, run the development server:
+## Особенности
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Запись снов**: Ввод текстом или голосом
+- **AI анализ**: Автоматический анализ с помощью Google Gemini через OpenRouter
+- **Персонажи**: Автоматическое выявление и сохранение персонажей из снов
+- **Локации**: Сохранение мест действия из снов
+- **Паттерны**: Выявление повторяющихся паттернов и символов
+- **Навигация**: Удобная карусель по дням
+- **Локальное хранение**: Все данные хранятся только на вашем устройстве
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Технологии
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- IndexedDB (Dexie.js)
+- OpenRouter API (Google Gemini 3 Flash)
+- Web Speech API (голосовой ввод)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Установка
 
-## Learn More
+1. Клонируйте репозиторий
+2. Установите зависимости:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Запустите development сервер:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Откройте [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Настройка
 
-## Deploy on Vercel
+Для работы AI анализа вам нужен API ключ от OpenRouter:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Локальная разработка:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Получите ключ на [openrouter.ai](https://openrouter.ai)
+2. Создайте файл `.env.local` в корне проекта:
+   ```
+   NEXT_PUBLIC_OPENROUTER_API_KEY=your-actual-key-here
+   ```
+3. Перезапустите dev сервер
+
+### Развертывание на Vercel:
+
+1. Добавьте переменную окружения `NEXT_PUBLIC_OPENROUTER_API_KEY` в настройках проекта Vercel
+2. Вставьте ваш API ключ
+3. Разверните проект
+
+## Использование
+
+1. Запишите сон: введите текст или используйте голосовой ввод
+2. Нажмите на кнопку отправки
+3. Подождите, пока AI проанализирует сон
+4. Результаты анализа появятся под записью
+5. Используйте карусель наверху для навигации по дням
+
+## Дизайн
+
+Приложение выполнено в минималистичном стиле "записной книжки":
+- Тёплые beige/cream оттенки
+- Шрифт Cormorant Garamond для заголовков
+- Мягкие тени и плавные анимации
+- Только необходимые элементы интерфейса
